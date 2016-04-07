@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>show Contact</title>
+        <!-- Bootstrap -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Contact List</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="index.html" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span> Contacts List</a>
+                    <a href="add.html" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add New Contact</a>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Fullname</th>
+                                    <th>Email</th> 
+                                </tr>
+                            </thead>
+                            <tbody class="print-data">
+
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fullname</th>
+                                <th>Email</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script>
+            (function($){
+                "use-strict";
+                var api_key = "716c2a9a165c2ea7b6830bb96fb89d7138edf3f6";
+                var full_url = document.URL; // Get current url
+				var url_array = full_url.split('=') // Split the string into an array with / as separator
+				var id = url_array[url_array.length-1];  // Get the last part of the array (-1)
+
+                $.ajax({
+			        type: 'GET',
+			        url: 'http://sites.dev/slimapi/api/contacts/store/' + id ,
+			        data: { api_key: api_key },
+			        dataType: "json",
+			        success: function(data){
+			            if(data.status == "pass"){
+			            	var content = '';
+			            	content += '<tr><td>' + data.contact['id'] + '</td>';
+                            content += '<td>' + data.contact['fullname'] + '</td>';
+                            content += '<td>' + data.contact['email'] + '</td>';
+
+                            $('.print-data').html(content);
+			            }
+			            else {
+			            	alert("Something went wrong.");
+			            }
+		        	}
+    			});
+            })(jQuery);
+        </script>
+    </body>
+</html>
